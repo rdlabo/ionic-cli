@@ -175,6 +175,10 @@ ${chalk.cyan('[1]')}: ${chalk.bold('https://ionicframework.com/docs/cli/starters
       }
     }
 
+    if (options['module']) {
+      // TODO add module flg for v4
+    }
+
     if (options['v1'] || options['v2']) {
       const type = options['v1'] ? 'ionic1' : 'ionic-angular';
 

@@ -1,4 +1,4 @@
-import * as ζobject from '@ionic/utils-object';
+import * as object from '@ionic/utils-object';
 import { Opts as ParseArgsOptions, ParsedArgs } from 'minimist';
 
 export type ParsedArg = string | boolean | null | undefined | string[];
@@ -82,8 +82,8 @@ export interface ICommand<C extends ICommand<C, N, M, I, O>, N extends INamespac
 
 export type CommandMapGetter<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> = () => Promise<C>;
 export type NamespaceMapGetter<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> = () => Promise<N>;
-export type ICommandMap<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> = ζobject.AliasedMap<string, CommandMapGetter<C, N, M, I, O>>;
-export type INamespaceMap<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> = ζobject.AliasedMap<string, NamespaceMapGetter<C, N, M, I, O>>;
+export type ICommandMap<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> = object.AliasedMap<string, CommandMapGetter<C, N, M, I, O>>;
+export type INamespaceMap<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> = object.AliasedMap<string, NamespaceMapGetter<C, N, M, I, O>>;
 
 export interface NamespaceLocateOptions {
   useAliases?: boolean;

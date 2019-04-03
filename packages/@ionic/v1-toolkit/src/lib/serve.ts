@@ -1,7 +1,7 @@
 import { pathExists, readFile } from '@ionic/utils-fs';
 import chalk from 'chalk';
-import * as ζexpress from 'express';
-import * as ζproxyMiddleware from 'http-proxy-middleware';
+import * as express from 'express';
+import * as proxyMiddleware from 'http-proxy-middleware';
 import * as path from 'path';
 
 import { ConfigFileProxy } from './config';
@@ -16,8 +16,8 @@ export const WATCH_PATTERNS = [
   '!www/**/*.map',
 ];
 
-export function proxyConfigToMiddlewareConfig(proxy: ConfigFileProxy): ζproxyMiddleware.Config {
-  const config: ζproxyMiddleware.Config = {
+export function proxyConfigToMiddlewareConfig(proxy: ConfigFileProxy): proxyMiddleware.Config {
+  const config: proxyMiddleware.Config = {
     pathRewrite: { [proxy.path]: '' },
     target: proxy.proxyUrl,
   };
@@ -33,7 +33,7 @@ export function proxyConfigToMiddlewareConfig(proxy: ConfigFileProxy): ζproxyMi
   return config;
 }
 
-export interface ProxyConfig extends ζproxyMiddleware.Config {
+export interface ProxyConfig extends proxyMiddleware.Config {
   mount: string;
 }
 
@@ -51,7 +51,7 @@ export interface ServeOptions {
   proxies: ProxyConfig[];
 }
 
-const DEFAULT_PROXY_CONFIG: ζproxyMiddleware.Config = {
+const DEFAULT_PROXY_CONFIG: proxyMiddleware.Config = {
   changeOrigin: true,
   logLevel: 'warn',
   ws: true,
@@ -91,14 +91,14 @@ export async function runServer(options: ServeOptions): Promise<ServeOptions> {
 /**
  * Create HTTP server
  */
-async function createHttpServer(options: ServeOptions): Promise<ζexpress.Application> {
+async function createHttpServer(options: ServeOptions): Promise<express.Application> {
   const express = await import('express');
   const app = express();
 
   /**
    * http responder for /index.html base entrypoint
    */
-  const serveIndex = async (req: ζexpress.Request, res: ζexpress.Response) => {
+  const serveIndex = async (req: express.Request, res: express.Response) => {
     // respond with the index.html file
     const indexFileName = path.join(options.wwwDir, 'index.html');
     let indexHtml = await readFile(indexFileName, { encoding: 'utf8' });
@@ -113,7 +113,7 @@ async function createHttpServer(options: ServeOptions): Promise<ζexpress.Applic
     res.send(indexHtml);
   };
 
-  const serveCordovaPlatformResource = async (req: ζexpress.Request, res: ζexpress.Response, next: ζexpress.NextFunction) => {
+  const serveCordovaPlatformResource = async (req: express.Request, res: express.Response, next: express.NextFunction) => {
     if (options.engine !== 'cordova' || !options.platform) {
       return next();
     }
@@ -153,7 +153,7 @@ async function createHttpServer(options: ServeOptions): Promise<ζexpress.Applic
 
   const wss = await createDevLoggerServer(options.host, options.devPort);
 
-  return new Promise<ζexpress.Application>((resolve, reject) => {
+  return new Promise<express.Application>((resolve, reject) => {
     const httpserv = app.listen(options.port, options.host);
 
     wss.on('error', err => {
@@ -170,12 +170,12 @@ async function createHttpServer(options: ServeOptions): Promise<ζexpress.Applic
   });
 }
 
-async function attachProxy(app: ζexpress.Application, config: ProxyConfig) {
+async function attachProxy(app: express.Application, config: ProxyConfig) {
   const proxyMiddleware = await import('http-proxy-middleware');
   app.use(config.mount, proxyMiddleware(config.mount, config));
 }
 
-function serveMockCordovaJS(req: ζexpress.Request, res: ζexpress.Response) {
+function serveMockCordovaJS(req: express.Request, res: express.Response) {
   res.set('Content-Type', 'application/javascript');
   res.send('// mock cordova file during development');
 }

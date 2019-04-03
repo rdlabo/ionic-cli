@@ -1,7 +1,7 @@
 import { conform } from '@ionic/utils-array';
 import { readFile } from '@ionic/utils-fs';
 import * as Debug from 'debug';
-import * as ζsuperagent from 'superagent';
+import * as superagent from 'superagent';
 
 import { CreateRequestOptions, HttpMethod } from '../../definitions';
 
@@ -19,7 +19,7 @@ function getGlobalProxy(): { envvar: string; envval: string; } | undefined {
   }
 }
 
-export async function createRequest(method: HttpMethod, url: string, { proxy, ssl }: CreateRequestOptions): Promise<{ req: ζsuperagent.SuperAgentRequest; }> {
+export async function createRequest(method: HttpMethod, url: string, { proxy, ssl }: CreateRequestOptions): Promise<{ req: superagent.SuperAgentRequest; }> {
   const superagent = await import('superagent');
 
   if (!proxy) {
@@ -72,7 +72,7 @@ export async function createRequest(method: HttpMethod, url: string, { proxy, ss
  * @param req The request to download to the writable stream.
  * @param ws Must be a dedicated writable stream that calls the 'close' event.
  */
-export async function download(req: ζsuperagent.SuperAgentRequest, ws: NodeJS.WritableStream, { progress }: { progress?: (loaded: number, total: number) => void; }): Promise<void> {
+export async function download(req: superagent.SuperAgentRequest, ws: NodeJS.WritableStream, { progress }: { progress?: (loaded: number, total: number) => void; }): Promise<void> {
   return new Promise<void>((resolve, reject) => {
     req
       .on('response', res => {

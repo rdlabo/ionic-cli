@@ -1,5 +1,5 @@
 import * as Debug from 'debug';
-import * as ζinquirer from 'inquirer';
+import * as inquirer from 'inquirer';
 import logUpdate = require('log-update');
 import { LogUpdate } from 'log-update';
 
@@ -107,16 +107,16 @@ export class LogUpdateOutputStrategy implements OutputStrategy, RedrawLine {
 }
 
 export interface BottomBarOutputStrategyOptions {
-  readonly BottomBar: typeof ζinquirer.ui.BottomBar;
+  readonly BottomBar: typeof inquirer.ui.BottomBar;
   readonly input?: NodeJS.ReadableStream;
   readonly output?: NodeJS.WritableStream;
   readonly colors?: Colors;
 }
 
 export class BottomBarOutputStrategy implements OutputStrategy, RedrawLine {
-  protected bottomBar?: ζinquirer.ui.BottomBar;
+  protected bottomBar?: inquirer.ui.BottomBar;
 
-  protected readonly BottomBar: typeof ζinquirer.ui.BottomBar;
+  protected readonly BottomBar: typeof inquirer.ui.BottomBar;
   protected readonly rawinput: NodeJS.ReadableStream;
   protected readonly rawoutput: NodeJS.WritableStream;
   protected readonly colors: Colors;
@@ -138,7 +138,7 @@ export class BottomBarOutputStrategy implements OutputStrategy, RedrawLine {
     bottomBar.updateBottomBar(msg);
   }
 
-  get(): typeof ζinquirer.ui.BottomBar {
+  get(): typeof inquirer.ui.BottomBar {
     if (!this.bottomBar) {
       this.bottomBar = new this.BottomBar({ input: this.rawinput, output: this.rawoutput } as any);
 

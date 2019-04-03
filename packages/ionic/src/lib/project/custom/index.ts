@@ -3,8 +3,8 @@ import chalk from 'chalk';
 import { Project } from '../';
 import { RunnerNotFoundException } from '../../errors';
 
-import * as ζbuild from './build';
-import * as ζserve from './serve';
+import * as build from './build';
+import * as serve from './serve';
 
 export class CustomProject extends Project {
   readonly type: 'custom' = 'custom';
@@ -16,13 +16,13 @@ export class CustomProject extends Project {
     return false;
   }
 
-  async requireBuildRunner(): Promise<ζbuild.CustomBuildRunner> {
+  async requireBuildRunner(): Promise<build.CustomBuildRunner> {
     const { CustomBuildRunner } = await import('./build');
     const deps = { ...this.e, project: this };
     return new CustomBuildRunner(deps);
   }
 
-  async requireServeRunner(): Promise<ζserve.CustomServeRunner> {
+  async requireServeRunner(): Promise<serve.CustomServeRunner> {
     const { CustomServeRunner } = await import('./serve');
     const deps = { ...this.e, project: this };
     return new CustomServeRunner(deps);

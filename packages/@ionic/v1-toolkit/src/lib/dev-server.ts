@@ -1,9 +1,9 @@
 import { readFile } from '@ionic/utils-fs';
 import chalk, { Chalk } from 'chalk';
-import * as ζexpress from 'express';
+import * as express from 'express';
 import * as path from 'path';
 import * as util from 'util';
-import * as ζws from 'ws';
+import * as ws from 'ws';
 
 export const DEV_SERVER_PREFIX = '__ionic';
 
@@ -43,7 +43,7 @@ export function injectScript(content: string, code: string): string {
   return content;
 }
 
-export async function createDevServerHandler(options: DevServerOptions): Promise<ζexpress.RequestHandler> {
+export async function createDevServerHandler(options: DevServerOptions): Promise<express.RequestHandler> {
   const devServerConfig = {
     consolelogs: options.consolelogs,
     wsPort: options.devPort,
@@ -61,7 +61,7 @@ export async function createDevServerHandler(options: DevServerOptions): Promise
   };
 }
 
-export async function attachDevServer(app: ζexpress.Application, options: DevServerOptions) {
+export async function attachDevServer(app: express.Application, options: DevServerOptions) {
   app.get(`/${DEV_SERVER_PREFIX}/dev-server.js`, await createDevServerHandler(options));
 }
 
@@ -126,7 +126,7 @@ function getLiveReloadScript(port: number) {
 `;
 }
 
-export async function createDevLoggerServer(host: string, port: number): Promise<ζws.Server> {
+export async function createDevLoggerServer(host: string, port: number): Promise<ws.Server> {
   const WebSocket = await import('ws');
 
   const wss = new WebSocket.Server({ host, port });

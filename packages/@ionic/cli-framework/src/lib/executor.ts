@@ -4,14 +4,14 @@ import * as lodash from 'lodash';
 import { CommandInstanceInfo, CommandMetadata, CommandMetadataInput, CommandMetadataOption, ICommand, IExecutor, INamespace, NamespaceLocateResult } from '../definitions';
 import { BaseError, InputValidationError } from '../errors';
 import { isCommand, isNamespace } from '../guards';
-import * as ζipc from '../utils/ipc';
+import * as ipc from '../utils/ipc';
 
 import { Colors, DEFAULT_COLORS } from './colors';
 import { Command, Namespace } from './command';
 import { CommandHelpSchema, CommandSchemaHelpFormatter, CommandStringHelpFormatter, HelpFormatter, NamespaceHelpSchema, NamespaceSchemaHelpFormatter, NamespaceStringHelpFormatter } from './help';
 import { metadataOptionsToParseArgsOptions, parseArgs, stripOptions } from './options';
 
-export type HelpRPC<S extends CommandHelpSchema | NamespaceHelpSchema> = ζipc.RPC<'help', [ReadonlyArray<string>], S>;
+export type HelpRPC<S extends CommandHelpSchema | NamespaceHelpSchema> = ipc.RPC<'help', [ReadonlyArray<string>], S>;
 
 export interface ExecutorOperations {
   readonly RPC: string;
@@ -40,8 +40,8 @@ export interface BaseExecutorDeps<C extends ICommand<C, N, M, I, O>, N extends I
 }
 
 export interface BaseExecutor<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> extends AbstractExecutor<C, N, M, I, O> {
-  on(event: 'operation-rpc', callback: (rpc: ζipc.RPCProcess) => void): this;
-  emit(event: 'operation-rpc', rpc: ζipc.RPCProcess): boolean;
+  on(event: 'operation-rpc', callback: (rpc: ipc.RPCProcess) => void): this;
+  emit(event: 'operation-rpc', rpc: ipc.RPCProcess): boolean;
 }
 
 export class BaseExecutor<C extends ICommand<C, N, M, I, O>, N extends INamespace<C, N, M, I, O>, M extends CommandMetadata<I, O>, I extends CommandMetadataInput, O extends CommandMetadataOption> extends AbstractExecutor<C, N, M, I, O> {

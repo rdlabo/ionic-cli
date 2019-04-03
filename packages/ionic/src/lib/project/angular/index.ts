@@ -5,9 +5,9 @@ import * as lodash from 'lodash';
 import { Project } from '../';
 import { IAilmentRegistry, InfoItem } from '../../../definitions';
 
-import * as ζbuild from './build';
-import * as ζgenerate from './generate';
-import * as ζserve from './serve';
+import * as build from './build';
+import * as generate from './generate';
+import * as serve from './serve';
 
 const debug = Debug('ionic:lib:project:angular');
 
@@ -55,19 +55,19 @@ export class AngularProject extends Project {
     return false;
   }
 
-  async requireBuildRunner(): Promise<ζbuild.AngularBuildRunner> {
+  async requireBuildRunner(): Promise<build.AngularBuildRunner> {
     const { AngularBuildRunner } = await import('./build');
     const deps = { ...this.e, project: this };
     return new AngularBuildRunner(deps);
   }
 
-  async requireServeRunner(): Promise<ζserve.AngularServeRunner> {
+  async requireServeRunner(): Promise<serve.AngularServeRunner> {
     const { AngularServeRunner } = await import('./serve');
     const deps = { ...this.e, project: this };
     return new AngularServeRunner(deps);
   }
 
-  async requireGenerateRunner(): Promise<ζgenerate.AngularGenerateRunner> {
+  async requireGenerateRunner(): Promise<generate.AngularGenerateRunner> {
     const { AngularGenerateRunner } = await import('./generate');
     const deps = { ...this.e, project: this };
     return new AngularGenerateRunner(deps);
